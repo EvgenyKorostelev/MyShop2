@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${product.title}]] &ndash; MyShop</title>
+</head>
+<body>
+<a data-th-href="@{list}">&larr; К списку товаров</a>
+<h1 data-th-text="${product.title}"></h1>
+<ul>
+    <li><strong>ID</strong>: <span data-th-text="${product.id}"></span></li>
+    <li><strong>Название</strong>: <span data-th-text="${product.title}"></span></li>
+    <li><strong>Описание</strong>: <span data-th-text="${product.description}"></span></li>
+</ul>
+
+<form method="get" data-th-action="@{{id}/edit(id=${product.id})}">
+    <button type="submit">Редактировать</button>
+</form>
+<form method="post" data-th-action="@{{id}/delete(id=${product.id})}">
+    <button type="submit">Удалить</button>
+</form>
+</body>
+</html>
