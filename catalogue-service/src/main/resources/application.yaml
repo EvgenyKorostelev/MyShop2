@@ -9,6 +9,11 @@ spring:
     password: catalogue
   jpa:
     show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8082/realms/MyShop2
 eureka:
   client:
     serviceUrl:

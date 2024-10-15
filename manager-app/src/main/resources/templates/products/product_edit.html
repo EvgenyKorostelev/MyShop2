@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Редактирование &laquo;[[${product.title}]]&laquo; товара &ndash; MyShop</title>
+    <meta charset="UTF-8">
+    <title>Редактирование &laquo;[[${product.title}]]&laquo; товара &ndash; MyShop</title>
 </head>
 <body>
 <a data-th-href="@{/products/{id}(id=${product.id})}">&larr; К товару</a>
 <h1>Редактирование &laquo;[[${product.title}]]&laquo;</h1>
+<div data-th-if="${errors}">
+    <h2>Допущены ошибки</h2>
+    <ul>
+        <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+    </ul>
+</div>
 <form method="post" data-th-action="@{/products/{id}/edit(id=${product.id})}">
-  <label>
-    Имя:<br>
-    <input type="text" name="title" data-th-value="${payload != null ? payload.title : product.title}">
-  </label><br>
-  <label>
-    Почта:<br>
-    <textarea name="description" data-th-text="${payload != null ? payload.description : product.description}"></textarea>
-  </label><br>
-  <button type="submit">Изменить</button>
+    <label>
+        Название:<br>
+        <input type="text" name="title" data-th-value="${payload != null ? payload.title : product.title}">
+    </label><br>
+    <label>
+        Описание:<br>
+        <textarea name="description"
+                  data-th-text="${payload != null ? payload.description : product.description}"></textarea>
+    </label><br>
+    <button type="submit">Изменить</button>
 </form>
 </body>
 </html>

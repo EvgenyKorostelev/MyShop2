@@ -1,18 +1,31 @@
 server:
-  port: 8082
+  port: 8083
 shop:
-  catalogue:
-    service:
+  services:
+    catalogue:
       uri: http://localhost:8081
+      registration-id: keycloak
 spring:
   application:
     name: manager-app
-  datasource:
-    url: jdbc:postgresql://localhost:5433/users
-    username: users
-    password: users
-    jpa:
-      show-sql: true
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8082/realms/MyShop2
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: manager-app
+            client-secret: QiGEyrX6kyOvvvp02GbdknEfeW1pCAw8
+            scope:
+              - openid
+              - view_catalogue
+              - edit_catalogue
+              - microprofile-jwt
+
+
 eureka:
   client:
     serviceUrl:

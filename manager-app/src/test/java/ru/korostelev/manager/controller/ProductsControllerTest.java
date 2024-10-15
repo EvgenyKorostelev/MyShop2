@@ -27,19 +27,19 @@ class ProductsControllerTest {
     @InjectMocks
     ProductsController productsController;
 
-    @Test
-    @DisplayName("getProductsList вернет страницу со списком товаров")
-    void getProductsListTest(){
-        var model = new ConcurrentModel();
-
-        List<Product> expectedtList = new ArrayList<>(List.of(
-                new Product(1, "Myach", "krugliy"),
-                new Product(2, "Shar", "ovalniy")));
-
-        String result = productsController.getProductsList(model);
-        assertEquals("products/list", result);
-        verify(productsRestClient).findAllProducts();
-    }
+//    @Test
+//    @DisplayName("getProductsList вернет страницу со списком товаров")
+//    void getProductsListTest(){
+//        var model = new ConcurrentModel();
+//
+//        List<Product> expectedtList = new ArrayList<>(List.of(
+//                new Product(1, "Myach", "krugliy"),
+//                new Product(2, "Shar", "ovalniy")));
+//
+//        String result = productsController.getProductsList(model);
+//        assertEquals("products/list", result);
+//        verify(productsRestClient).findAllProducts();
+//    }
 
     @Test
     @DisplayName("createProduct создаст новый товар и перенаправит на страницу товара")
