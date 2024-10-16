@@ -19,8 +19,12 @@ public class ProductServiceImp implements ProductService {
 
 
     @Override
-    public List<Product> findAllProducts() {
-        return productRepository.findAll();
+    public List<Product> findAllProducts(String filter) {
+        if(filter != null && !filter.isBlank()){
+            return this.productRepository.findAllByTitleLikeIgnoreCase("%" + filter + "%");
+        } else {
+            return this.productRepository.findAll();
+        }
     }
 
     @Override
