@@ -1,4 +1,4 @@
-package ru.korostelev.manager.client;
+package ru.korostelev.manager.client.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

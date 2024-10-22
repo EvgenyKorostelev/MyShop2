@@ -1,4 +1,4 @@
-package ru.korostelev.customer.client;
+package ru.korostelev.customer.client.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BadRequestException extends RuntimeException{
+public class BadRequestException extends RuntimeException {
     private final List<String> errors;
 
     public BadRequestException(List<String> errors) {
@@ -29,7 +29,8 @@ public class BadRequestException extends RuntimeException{
         this.errors = errors;
     }
 
-    public BadRequestException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, List<String> errors) {
+    public BadRequestException(String message, Throwable cause, boolean enableSuppression,
+                               boolean writableStackTrace, List<String> errors) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.errors = errors;
     }

@@ -24,8 +24,6 @@ spring:
               - view_catalogue
               - edit_catalogue
               - microprofile-jwt
-
-
 eureka:
   client:
     serviceUrl:

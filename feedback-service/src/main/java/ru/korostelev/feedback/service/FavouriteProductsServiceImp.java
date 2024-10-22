@@ -1,9 +1,9 @@
-package ru.korostelev.customer.service;
+package ru.korostelev.feedback.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.korostelev.customer.entity.FavouriteProduct;
-import ru.korostelev.customer.repository.FavouriteProductRepository;
+import ru.korostelev.feedback.entity.FavouriteProduct;
+import ru.korostelev.feedback.repository.FavouriteProductRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,13 +20,13 @@ public class FavouriteProductsServiceImp implements FavouriteProductsService {
     }
 
     @Override
-    public Void removeProductFromFavourites(int id) {
-        return this.favouriteProductRepository.deleteByProductId(id);
+    public void removeProductFromFavourites(int id) {
+        this.favouriteProductRepository.deleteById(id);
     }
 
     @Override
     public FavouriteProduct findFavouriteProductByProduct(int id) {
-        return this.favouriteProductRepository.findByProductId(id);
+        return this.favouriteProductRepository.findById(id);
     }
 
     @Override

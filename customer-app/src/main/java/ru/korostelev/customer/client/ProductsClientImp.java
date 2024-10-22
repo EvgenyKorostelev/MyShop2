@@ -8,11 +8,10 @@ import org.springframework.web.client.RestClient;
 import ru.korostelev.customer.entity.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
-public class ProductsRestClientImp implements ProductsRestClient {
+public class ProductsClientImp implements ProductsClient {
 
     private static final ParameterizedTypeReference<List<Product>> PRODUCTS_TYPE_REFERENCE =
             new ParameterizedTypeReference<>() {
@@ -30,15 +29,16 @@ public class ProductsRestClientImp implements ProductsRestClient {
     }
 
     @Override
-    public Optional<Product> findProduct(Integer id) {
+    public Product findProduct(Integer id) {
         try {
-            return Optional.ofNullable(this.restClient
+            return this.restClient
                     .get()
                     .uri("/catalogue-api/products/{id}", id)
                     .retrieve()
-                    .body(Product.class));
+                    .body(Product.class);
         } catch (HttpClientErrorException.NotFound exception) {
-            return Optional.empty();
+            return null;
         }
     }
 }
+

@@ -1,21 +1,6 @@
 package ru.korostelev.customer.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.UUID;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class ProductReview {
-
-    private UUID id;
-
-    private int productId;
-
-    private int rating;
-
-    private String review;
+public record ProductReview(UUID uuid, int id, int rating, String review) {
 }

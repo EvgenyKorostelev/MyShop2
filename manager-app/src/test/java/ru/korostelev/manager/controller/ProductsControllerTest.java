@@ -6,12 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.ConcurrentModel;
-import ru.korostelev.manager.client.BadRequestException;
+import ru.korostelev.manager.client.exception.BadRequestException;
 import ru.korostelev.manager.client.ProductsRestClient;
 import ru.korostelev.manager.controller.payload.NewProductPayload;
 import ru.korostelev.manager.entity.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

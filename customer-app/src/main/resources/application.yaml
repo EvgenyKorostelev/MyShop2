@@ -1,7 +1,29 @@
+server:
+  port: 8084
 shop:
   services:
     catalogue:
       uri: http://localhost:8081
       registration-id: keycloak
-server:
-  port: 8084
+spring:
+  application:
+    name: customer-app
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8082/realms/MyShop2
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: customer-app
+            client-secret: 2tqPhB8xWnTumxguOloB1ohSPH7iyR5I
+            scope:
+              - openid
+              - view_catalogue
+              - microprofile-jwt
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8080/eureka

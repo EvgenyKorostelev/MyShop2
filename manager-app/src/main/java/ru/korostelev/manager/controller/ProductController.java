@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.korostelev.manager.client.BadRequestException;
+import ru.korostelev.manager.client.exception.BadRequestException;
 import ru.korostelev.manager.client.ProductsRestClient;
 import ru.korostelev.manager.controller.payload.UpdateProductPayload;
 import ru.korostelev.manager.entity.Product;

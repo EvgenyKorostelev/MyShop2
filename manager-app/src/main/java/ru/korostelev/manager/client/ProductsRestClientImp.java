@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+import ru.korostelev.manager.client.exception.BadRequestException;
 import ru.korostelev.manager.controller.payload.NewProductPayload;
 import ru.korostelev.manager.controller.payload.UpdateProductPayload;
 import ru.korostelev.manager.entity.Product;
