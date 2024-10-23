@@ -15,6 +15,7 @@ import java.util.UUID;
 public class ProductReview {
 
     @Id
+    @Column(name = "id")
     private UUID uuid;
 
     @Column(name = "c_productid")

@@ -2,7 +2,6 @@ package ru.korostelev.customer.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServerHttpResponse;
@@ -15,14 +14,16 @@ import ru.korostelev.customer.client.ProductsClient;
 import ru.korostelev.customer.client.exception.BadRequestException;
 import ru.korostelev.customer.controller.payload.NewProductReviewPayload;
 import ru.korostelev.customer.entity.Product;
+import ru.korostelev.customer.entity.ProductReview;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("customer/products/{productId:\\d+}")
+@RequestMapping("customer/products/{id:\\d+}")
 public class ProductController {
 
     private final ProductsClient productsClient;
@@ -34,16 +35,18 @@ public class ProductController {
     private final MessageSource messageSource;
 
     @ModelAttribute(name = "product", binding = false)
-    public Product loadProduct(@PathVariable("id") int id) {
+    public Product product(@PathVariable("id") int id) {
         return Optional.of(this.productsClient.findProduct(id))
                 .orElseThrow(() -> new NoSuchElementException("customer.products.error.not_found"));
     }
 
     @GetMapping
-    public String getProductPage(@ModelAttribute("product") Product product, Model model) {
-        model.addAttribute("reviews", this.productReviewsClient.findProductReviewsByProductId(product.id()));
-        model.addAttribute("inFavourite", this.favouriteProductsClient.findFavouriteProductByProductId(product.id()));
-        model.addAttribute("inFavourite", true);
+    public String getProduct(@PathVariable("id") int id, Model model) {
+        model.addAttribute("inFavourite", false);
+        model.addAttribute("reviews", this.productReviewsClient.findProductReviewsByProductId(id));
+        if (favouriteProductsClient.findFavouriteProductByProductId(id) != null) {
+            model.addAttribute("inFavourite", true);
+        }
         return "customer/products/product";
     }
 
@@ -59,12 +62,14 @@ public class ProductController {
         }
     }
 
+    //не работает
     @PostMapping("remove-from-favourites")
     public String removeProductFromFavourites(@ModelAttribute("product") Product product) {
         this.favouriteProductsClient.removeProductFromFavourites(product.id());
         return "redirect:/customer/products/%d".formatted(product.id());
     }
 
+    //не работает
     @PostMapping("create-review")
     public String createReview(@ModelAttribute("product") Product product,
                                NewProductReviewPayload payload,
