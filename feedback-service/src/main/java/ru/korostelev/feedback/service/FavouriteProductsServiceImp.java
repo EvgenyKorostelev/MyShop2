@@ -2,6 +2,7 @@ package ru.korostelev.feedback.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.korostelev.feedback.entity.FavouriteProduct;
 import ru.korostelev.feedback.repository.FavouriteProductRepository;
 
@@ -15,11 +16,13 @@ public class FavouriteProductsServiceImp implements FavouriteProductsService {
     private final FavouriteProductRepository favouriteProductRepository;
 
     @Override
+    @Transactional
     public FavouriteProduct addProductToFavourites(int id) {
         return this.favouriteProductRepository.save(new FavouriteProduct(UUID.randomUUID(), id));
     }
 
     @Override
+    @Transactional
     public void removeProductFromFavourites(int id) {
         this.favouriteProductRepository.deleteById(id);
     }

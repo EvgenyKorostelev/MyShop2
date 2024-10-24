@@ -62,19 +62,16 @@ public class ProductController {
         }
     }
 
-    //не работает
     @PostMapping("remove-from-favourites")
     public String removeProductFromFavourites(@ModelAttribute("product") Product product) {
         this.favouriteProductsClient.removeProductFromFavourites(product.id());
         return "redirect:/customer/products/%d".formatted(product.id());
     }
 
-    //не работает
     @PostMapping("create-review")
     public String createReview(@ModelAttribute("product") Product product,
                                NewProductReviewPayload payload,
-                               Model model,
-                               ServerHttpResponse response) {
+                               Model model) {
         try {
             this.productReviewsClient.createProductReview(product.id(), payload.rating(), payload.review());
             return "redirect:/customer/products/%d".formatted(product.id());
@@ -82,13 +79,11 @@ public class ProductController {
             model.addAttribute("inFavourite", false);
             model.addAttribute("payload", payload);
             model.addAttribute("errors", exception.getErrors());
-            response.setStatusCode(HttpStatus.BAD_REQUEST);
             this.favouriteProductsClient.findFavouriteProductByProductId(product.id());
             model.addAttribute("inFavourite", true);
             return "customer/products/product";
         }
     }
-
 
     @ExceptionHandler(NoSuchElementException.class)
     public String handleNoSuchElementException(NoSuchElementException exception, Model model,
