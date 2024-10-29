@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина &ndash; MyShop2</title>
+</head>
+<body>
+<a data-th-href="@{/customer/products/list}">Все товары</a> <br>
+<a data-th-href="@{/customer/products/favourites}">Избранные товары</a>
+<h1>Корзина</h1>
+<form>
+    <label>Фильтр: <input type="text" name="filter" data-th-value="${filter}"> <button type="submit">Поиск</button></label>
+</form>
+<ul>
+    <li data-th-each="product : ${products}">
+        <strong>
+            <a data-th-text="${product.title}" data-th-href="@{/customer/products/{id}(id=${product.id})}"></a>
+        </strong>
+        <form method="post" data-th-action="@{/customer/products/{id}/remove-from-basket(id=${product.id})}">
+            <button type="submit">Удалить</button>
+        </form>
+    </li>
+</ul>
+</body>
+</html>

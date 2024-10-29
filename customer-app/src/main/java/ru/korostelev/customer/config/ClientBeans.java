@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.web.client.RestClient;
+import ru.korostelev.customer.client.BasketClientImp;
 import ru.korostelev.customer.client.FavouriteProductsClientImp;
 import ru.korostelev.customer.client.ProductReviewsClientImp;
 import ru.korostelev.customer.client.ProductsClientImp;
@@ -54,6 +55,21 @@ public class ClientBeans {
             @Value("${shop.services.feedback.registration-id:keycloak}") String registrationId) {
         return new ProductReviewsClientImp(RestClient.builder()
                 .baseUrl(favouriteBaseUri)
+                .requestInterceptor(
+                        new OAuthClientHttpRequestInterceptor(
+                                new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository,
+                                        authorizedClientRepository), registrationId))
+                .build());
+    }
+
+    @Bean
+    public BasketClientImp basketRestClient(
+            @Value("${shop.services.basket.uri:http://localhost:8086}") String basketBaseUri,
+            ClientRegistrationRepository clientRegistrationRepository,
+            OAuth2AuthorizedClientRepository authorizedClientRepository,
+            @Value("${shop.services.basket.registration-id:keycloak}") String registrationId){
+        return new BasketClientImp(RestClient.builder()
+                .baseUrl(basketBaseUri)
                 .requestInterceptor(
                         new OAuthClientHttpRequestInterceptor(
                                 new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository,

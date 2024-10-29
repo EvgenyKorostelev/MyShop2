@@ -5,6 +5,9 @@
   <title>Наши товары &ndash; MyShop2</title>
 </head>
 <body>
+<form data-th-action="@{/customer/products/basket}">
+  <label><button type="submit">Корзина</button> <a data-th-text="${basket}"></a> </label>
+</form><br>
 <a data-th-href="@{/customer/products/favourites}">Избранные товары</a>
 <h1>Все товары</h1>
 <form>

@@ -5,9 +5,15 @@
   <title>[[${product.title}]] &ndash; MyShop2</title>
 </head>
 <body>
+<form data-th-action="@{/customer/products/basket}">
+  <label><button type="submit">Корзина</button> <a data-th-text="${basket}"></a> </label>
+</form><br>
 <a data-th-href="@{/customer/products/list}">&larr; К списку товаров</a>
 <h1 data-th-text="${product.title}"></h1>
 <p data-th-text="${product.description}"></p>
+<form method="post" data-th-action="@{/customer/products/{id}/add-to-basket(id=${product.id})}">
+  <button type="submit">Добавить в корзину</button>
+</form>
 <form method="post" data-th-action="@{/customer/products/{id}/add-to-favourites(id=${product.id})}"
       data-th-if="${!inFavourite}">
   <button type="submit">Добавить в избранное</button>

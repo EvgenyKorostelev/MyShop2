@@ -4,19 +4,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.korostelev.customer.client.BasketClient;
 import ru.korostelev.customer.client.FavouriteProductsClient;
 import ru.korostelev.customer.client.ProductReviewsClient;
 import ru.korostelev.customer.client.ProductsClient;
 import ru.korostelev.customer.client.exception.BadRequestException;
 import ru.korostelev.customer.controller.payload.NewProductReviewPayload;
 import ru.korostelev.customer.entity.Product;
-import ru.korostelev.customer.entity.ProductReview;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -32,6 +30,8 @@ public class ProductController {
 
     private final ProductReviewsClient productReviewsClient;
 
+    private final BasketClient basketClient;
+
     private final MessageSource messageSource;
 
     @ModelAttribute(name = "product", binding = false)
@@ -43,11 +43,35 @@ public class ProductController {
     @GetMapping
     public String getProduct(@PathVariable("id") int id, Model model) {
         model.addAttribute("inFavourite", false);
+        model.addAttribute("inBasket", false);
         model.addAttribute("reviews", this.productReviewsClient.findProductReviewsByProductId(id));
+        model.addAttribute("basket", this.basketClient.findProductsInBasket().size());
+        if (basketClient.findBasketProductById(id) != null){
+            model.addAttribute("inBasket", true);
+        }
         if (favouriteProductsClient.findFavouriteProductByProductId(id) != null) {
             model.addAttribute("inFavourite", true);
         }
         return "customer/products/product";
+    }
+
+
+    @PostMapping("add-to-basket")
+    public String addProductToBasket(@ModelAttribute("product") Product product,
+                                     Model model){
+        try {
+            this.basketClient.addProductToBasket (product.id(), 1);
+            return "redirect:/customer/products/%d".formatted(product.id());
+        } catch (BadRequestException exception) {
+            model.addAttribute("errors", exception.getErrors());
+            return "redirect:/customer/products/%d".formatted(product.id());
+        }
+    }
+
+    @PostMapping("remove-from-basket")
+    public String removeFromBasket(@ModelAttribute("product") Product product) {
+        this.basketClient.removeProductFromBasket(product.id());
+        return "redirect:/customer/products/basket";
     }
 
     @PostMapping("add-to-favourites")
@@ -79,8 +103,9 @@ public class ProductController {
             model.addAttribute("inFavourite", false);
             model.addAttribute("payload", payload);
             model.addAttribute("errors", exception.getErrors());
-            this.favouriteProductsClient.findFavouriteProductByProductId(product.id());
+            if(this.favouriteProductsClient.findFavouriteProductByProductId(product.id()) != null){
             model.addAttribute("inFavourite", true);
+            }
             return "customer/products/product";
         }
     }

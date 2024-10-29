@@ -7,53 +7,55 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import ru.korostelev.customer.client.exception.BadRequestException;
-import ru.korostelev.customer.client.payload.NewFavouriteProductPayload;
+import ru.korostelev.customer.client.payload.NewBasketProductPayload;
+import ru.korostelev.customer.entity.BasketProduct;
 import ru.korostelev.customer.entity.FavouriteProduct;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
-public class FavouriteProductsClientImp implements FavouriteProductsClient {
+public class BasketClientImp implements BasketClient {
 
-    private static final ParameterizedTypeReference<List<FavouriteProduct>> FAVOURITES_PRODUCTS_TYPE_REFERENCE =
+    private static final ParameterizedTypeReference<List<BasketProduct>> BASKET_PRODUCTS_TYPE_REFERENCE =
             new ParameterizedTypeReference<>() {
             };
 
     private final RestClient restClient;
 
     @Override
-    public List<FavouriteProduct> findFavouriteProducts() {
+    public List<BasketProduct> findProductsInBasket() {
         return this.restClient
                 .get()
-                .uri("/feedback-api/favourite-products")
+                .uri("/basket-api/added-products")
                 .retrieve()
-                .body(FAVOURITES_PRODUCTS_TYPE_REFERENCE);
+                .body(BASKET_PRODUCTS_TYPE_REFERENCE);
     }
 
     @Override
-    public FavouriteProduct findFavouriteProductByProductId(int id) {
+    public BasketProduct findBasketProductById(int id){
         try {
             return this.restClient
                     .get()
-                    .uri("/feedback-api/favourite-products/by-product-id/{id}", id)
+                    .uri("/basket-api/added-products/by-product-id/{id}", id)
                     .retrieve()
-                    .body(FavouriteProduct.class);
+                    .body(BasketProduct.class);
         } catch (HttpClientErrorException.NotFound exception) {
             return null;
         }
     }
 
+
     @Override
-    public FavouriteProduct addProductToFavourites(int id) {
+    public BasketProduct addProductToBasket(int id, int count) {
         try {
             return this.restClient
                     .post()
-                    .uri("/feedback-api/favourite-products")
+                    .uri("/basket-api/added-products")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(new NewFavouriteProductPayload(id))
+                    .body(new NewBasketProductPayload(id, count))
                     .retrieve()
-                    .body(FavouriteProduct.class);
+                    .body(BasketProduct.class);
         } catch (HttpClientErrorException.BadRequest exception) {
             ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
             throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
@@ -61,11 +63,11 @@ public class FavouriteProductsClientImp implements FavouriteProductsClient {
     }
 
     @Override
-    public void removeProductFromFavourites(int id) {
+    public void removeProductFromBasket(int id) {
         try {
             this.restClient
                     .delete()
-                    .uri("/feedback-api/favourite-products/by-product-id/{id}", id)
+                    .uri("/basket-api/added-products/by-product-id/{id}", id)
                     .retrieve()
                     .toBodilessEntity();
         } catch (HttpClientErrorException.NotFound exception) {

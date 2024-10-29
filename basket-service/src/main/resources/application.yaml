@@ -1,14 +1,14 @@
 server:
-  port: 8085
+  port: 8086
 spring:
   application:
-    name: feedback-service
-  datasource:
-    url: jdbc:postgresql://localhost:5434/feedback
-    username: feedback
-    password: feedback
-  jpa:
-    show-sql: true
+    name: basket-service
+#  datasource:
+#    url: jdbc:postgresql://localhost:5434/feedback
+#    username: feedback
+#    password: feedback
+#  jpa:
+#    show-sql: true
   security:
     oauth2:
       resourceserver:
