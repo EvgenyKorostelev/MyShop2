@@ -17,12 +17,9 @@ public class Product {
     private Integer id;
 
     @Column(name = "c_title")
-//    @NotNull
-//    @Size(min = 3, max = 50)
     private String title;
 
     @Column(name = "c_description")
-//    @Size(max = 1000)
     private String description;
 
     public Product(String title, String description) {
