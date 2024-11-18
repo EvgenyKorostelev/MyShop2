@@ -14,7 +14,10 @@ public class SecurityBeans {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.anyRequest().authenticated())
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**")
+                        .permitAll()
+                        .anyRequest().authenticated())
                 .csrf(CsrfConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
