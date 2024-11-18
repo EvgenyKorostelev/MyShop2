@@ -1,6 +1,8 @@
 package ru.korostelev.catalogue.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.event.Level;
@@ -35,11 +37,13 @@ public class ProductRestController {
     }
 
     @GetMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public Product findProduct(@ModelAttribute("product") Product product) {
         return product;
     }
 
     @PatchMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public ResponseEntity<?> updateProduct(@PathVariable("id") Integer id,
                                            @Valid @RequestBody UpdateProductPayload payload,
                                            BindingResult bindingResult)
@@ -58,6 +62,7 @@ public class ProductRestController {
     }
 
     @DeleteMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Integer id) {
         this.productService.deleteProductById(id);
         return ResponseEntity.noContent()

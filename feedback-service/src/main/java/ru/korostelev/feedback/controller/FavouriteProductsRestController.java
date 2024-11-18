@@ -1,5 +1,7 @@
 package ru.korostelev.feedback.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,16 +24,19 @@ public class FavouriteProductsRestController {
     private final FavouriteProductsService favouriteProductsService;
 
     @GetMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public List<FavouriteProduct> findFavouriteProducts() {
         return this.favouriteProductsService.findFavouriteProducts();
     }
 
     @GetMapping("by-product-id/{id:\\d+}")
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public FavouriteProduct findFavouriteProductByProductId(@PathVariable("id") int id) {
         return this.favouriteProductsService.findFavouriteProductByProduct(id);
     }
 
     @PostMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public ResponseEntity<FavouriteProduct> addProductToFavourites(
             @Valid @RequestBody NewFavouriteProductPayload payload,
             BindingResult bindingResult,
@@ -53,6 +58,7 @@ public class FavouriteProductsRestController {
     }
 
     @DeleteMapping("by-product-id/{id:\\d+}")
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public ResponseEntity<Void> removeProductFromFavourites(@PathVariable("id") int id) {
         this.favouriteProductsService.removeProductFromFavourites(id);
         return ResponseEntity.noContent().build();

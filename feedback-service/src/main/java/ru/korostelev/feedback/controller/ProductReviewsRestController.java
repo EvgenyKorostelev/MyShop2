@@ -1,6 +1,8 @@
 package ru.korostelev.feedback.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +25,13 @@ public class ProductReviewsRestController {
     private final ProductReviewsService productReviewsService;
 
     @GetMapping("by-product-id/{id:\\d+}")
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public List<ProductReview> findProductReviewsByProductId(@PathVariable("id") int id) {
         return this.productReviewsService.findProductReviewsByProduct(id);
     }
 
     @PostMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public ResponseEntity<ProductReview> createProductReview(
             @Valid @RequestBody NewProductReviewPayload payload,
             BindingResult bindingResult,

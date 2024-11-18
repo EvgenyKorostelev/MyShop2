@@ -1,5 +1,7 @@
 package ru.korostelev.basket.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -21,16 +23,19 @@ public class BasketRestController {
     private final BasketService basketService;
 
     @GetMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public List<Product> productsInBasket(){
         return this.basketService.findProductsInBasket();
     }
 
     @GetMapping("by-product-id/{id:\\d+}")
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public Product getProductById(@PathVariable("id") int id){
         return this.basketService.findProductById(id);
     }
 
     @PostMapping
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     public ResponseEntity<Product> addProductToBasket(@RequestBody NewProductPayload payload,
                                                       BindingResult bindingResult,
                                                       UriComponentsBuilder uriComponentsBuilder) throws BindException {
@@ -51,6 +56,7 @@ public class BasketRestController {
     }
 
     @DeleteMapping("by-product-id/{id:\\d+}")
+    @Operation(security = @SecurityRequirement(name = "keycloak"))
     private ResponseEntity<Void> removeProductFromBasket(@PathVariable("id") int id) {
         this.basketService.deleteFromBasketById(id);
         return ResponseEntity.noContent().build();

@@ -43,7 +43,10 @@ MyShop2 — это учебный проект веб-приложения ма�
 2. ### Поднять контейнеры с базами данных и сервером Keycloak.
    ### Контейнеры:
    #### Создание контейнера с базой товаров через докер, catalogue
-   ```docker run --name catalogue-db -p 5432:5432 -e POSTGRES_DB=catalogue -e POSTGRES_USER=catalogue -e POSTGRES_PASSWORD=catalogue postgres:16```
+    ```
+    docker run --name catalogue-db -p 5432:5432 -e POSTGRES_DB=catalogue -e POSTGRES_USER=catalogue
+    -e POSTGRES_PASSWORD=catalogue postgres:16
+    ```
 
    #### Создание контейнера с базой отзывов через докер, feedback
     ```
