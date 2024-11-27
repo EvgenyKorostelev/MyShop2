@@ -67,7 +67,7 @@ public class ClientBeans {
             @Value("${shop.services.basket.uri:http://localhost:8086}") String basketBaseUri,
             ClientRegistrationRepository clientRegistrationRepository,
             OAuth2AuthorizedClientRepository authorizedClientRepository,
-            @Value("${shop.services.basket.registration-id:keycloak}") String registrationId){
+            @Value("${shop.services.basket.registration-id:keycloak}") String registrationId) {
         return new BasketClientImp(RestClient.builder()
                 .baseUrl(basketBaseUri)
                 .requestInterceptor(

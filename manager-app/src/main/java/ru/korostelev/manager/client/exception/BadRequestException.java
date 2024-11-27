@@ -29,7 +29,8 @@ public class BadRequestException  extends RuntimeException{
         this.errors = errors;
     }
 
-    public BadRequestException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, List<String> errors) {
+    public BadRequestException(String message, Throwable cause, boolean enableSuppression,
+                               boolean writableStackTrace, List<String> errors) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.errors = errors;
     }
