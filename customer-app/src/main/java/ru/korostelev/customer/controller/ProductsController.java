@@ -37,6 +37,7 @@ public class ProductsController {
     @GetMapping("favourites")
     public String getFavouriteProductsPage(Model model, @RequestParam(name = "filter", required = false) String filter) {
         model.addAttribute("filter", filter);
+        //возможно лучше перенести фильтрацию в feedbackService
         List<Product> products = this.favouriteProductsClient.findFavouriteProducts().stream()
                 .map(FavouriteProduct::id)
                 .flatMap(favouriteProducts -> this.productsClient.findAllProducts(filter).stream()
@@ -50,6 +51,7 @@ public class ProductsController {
     @GetMapping("basket")
     public String getBasketPage(Model model, @RequestParam(name = "filter", required = false) String filter) {
         model.addAttribute("filter", filter);
+        //возможно лучше перенести фильтрацию в feedbackService
         List<Product> products = this.basketClient.findProductsInBasket().stream()
                 .map(BasketProduct::id)
                 .flatMap(basketProducts -> this.productsClient.findAllProducts(filter).stream()

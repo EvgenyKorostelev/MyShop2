@@ -71,4 +71,6 @@ public class ProductController {
                         exception.getMessage(), locale));
         return "errors/404";
     }
+
+
 }
