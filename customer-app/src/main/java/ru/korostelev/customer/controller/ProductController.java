@@ -36,7 +36,7 @@ public class ProductController {
 
     @ModelAttribute(name = "product", binding = false)
     public Product product(@PathVariable("id") int id) {
-        return Optional.of(this.productsClient.findProduct(id))
+        return Optional.ofNullable(this.productsClient.findProduct(id))
                 .orElseThrow(() -> new NoSuchElementException("customer.products.error.not_found"));
     }
 
