@@ -36,7 +36,7 @@ public class ProductControllerTest {
 
     @Test
     @DisplayName("product вернет товар")
-    void product_ShouldReturnProduct_WhenProductExists() {
+    void productShouldReturnProductWhenProductExists() {
         Integer productId = 1;
         Product product = new Product(productId, "testProduct", "testDescription");
         when(productsRestClient.findProduct(productId)).thenReturn(Optional.of(product));
@@ -49,7 +49,7 @@ public class ProductControllerTest {
 
     @Test
     @DisplayName("product вернет ошибку товар не найден")
-    void product_ShouldThrowException_WhenProductDoesNotExist() {
+    void productShouldThrowExceptionWhenProductDoesNotExist() {
         Integer productId = 2;
         when(productsRestClient.findProduct(productId)).thenReturn(Optional.empty());
 
@@ -61,7 +61,7 @@ public class ProductControllerTest {
 
     @Test
     @DisplayName("deleteProduct удалит товар и вернет страницу списка товаров")
-    void deleteProduct_ShouldRedirectAfterDeletion() {
+    void deleteProductShouldRedirectAfterDeletion() {
         int productId = 1;
         Product product = new Product(productId, "testProduct", "testDescription");
 
@@ -73,7 +73,7 @@ public class ProductControllerTest {
 
     @Test
     @DisplayName("updateProduct обновит информацию о товаре и перенаправит на страницу товара")
-    void updateProduct_ShouldRedirectAfterSuccessfulUpdate() {
+    void updateProductShouldRedirectAfterSuccessfulUpdate() {
         int productId = 1;
         Product product = new Product(productId, "testProduct", "testDescription");
         UpdateProductPayload payload = new UpdateProductPayload("UpdatedTitle", "UpdatedDescription");
@@ -87,7 +87,7 @@ public class ProductControllerTest {
 
     @Test
     @DisplayName("updateProduct если данные, для обновления не валидные, вернет страницу товара")
-    void updateProduct_ShouldReturnEditView_WhenUpdateFails() {
+    void updateProductShouldReturnEditViewWhenUpdateFails() {
         Integer productId = 1;
         Product product = new Product(productId, "testProduct", "testDescription");
         UpdateProductPayload payload = new UpdateProductPayload("InvalidTitle", "InvalidDescription");

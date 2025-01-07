@@ -28,18 +28,18 @@ class ProductServiceImpTest {
     @InjectMocks
     ProductServiceImp productServiceImp;
 
-//    @Test
-//    @DisplayName("findAllProducts найдет и вернет список товаров")
-//    void findAllProductsTest() {
-//
-//        List<Product> expectedtList = new ArrayList<>(List.of(
-//                new Product(1, "Myach", "krugliy"),
-//                new Product(2, "Shar", "ovalniy")));
-//
-//        when(productRepository.findAll()).thenReturn(expectedtList);
-//        List<Product> actualProducts = productServiceImp.findAllProducts();
-//        assertEquals(expectedtList, actualProducts);
-//    }
+    @Test
+    @DisplayName("findAllProducts найдет и вернет список товаров")
+    void findAllProductsTest() {
+        String filter = null;
+        List<Product> expectedtList = new ArrayList<>(List.of(
+                new Product(1, "Myach", "krugliy"),
+                new Product(2, "Shar", "ovalniy")));
+
+        when(productRepository.findAll()).thenReturn(expectedtList);
+        List<Product> actualProducts = productServiceImp.findAllProducts(filter);
+        assertEquals(expectedtList, actualProducts);
+    }
 
     @Test
     @DisplayName("createProduct создаст и вернет новый товар")
