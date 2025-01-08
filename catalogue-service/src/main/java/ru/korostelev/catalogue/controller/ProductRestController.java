@@ -28,6 +28,7 @@ import java.util.NoSuchElementException;
 public class ProductRestController {
 
     private final ProductService productService;
+
     private final MessageSource messageSource;
 
     @ModelAttribute("product")
