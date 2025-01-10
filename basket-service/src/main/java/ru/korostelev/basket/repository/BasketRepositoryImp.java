@@ -10,7 +10,8 @@ import java.util.List;
 @Repository
 public class BasketRepositoryImp implements BasketRepository {
 
-    private final List<Product> products = Collections.synchronizedList(new LinkedList<>());
+    private final List<Product> products =
+            Collections.synchronizedList(new LinkedList<>());
 
     @Override
     public List<Product> findAllProducts() {
